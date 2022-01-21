@@ -41,7 +41,7 @@ namespace Project1_Recipe
                         var yourCommandSearch = 0;
                         while (yourCommandSearch != 4)
                         {
-                            yourCommandSearch = Helper.CheckInt("Choose one of the following numbers:" + "\n 1 - Find recipe by name" + "\n 2 - Find recipe by ingredient " + "\n 3 - Find recipe by index " + "\n 4 - Go back to main menu", 4);
+                            yourCommandSearch = Helper.CheckInt("Choose one of the following numbers:" + "\n 1 - Find recipe by name " + "\n 2 - Find recipe by ingredient " + "\n 3 - Find recipe by index " + "\n 4 - Go back to main menu", 4);
                             switch (yourCommandSearch)
                             {
                                 case 1:
