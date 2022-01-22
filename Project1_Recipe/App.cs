@@ -10,9 +10,9 @@ namespace Project1_Recipe
             var options = new JsonSerializerOptions { IncludeFields = true };
             var filename = "recipes.json";
             var yourCommand = 0;
-            while (yourCommand != 9)
+            while (yourCommand != 11)
             {
-                yourCommand = Helper.CheckInt("Choose one of the following numbers:" + "\n 1 - Add recipe" + "\n 2 - Delete recipe " + "\n 3 - Search recipe " + "\n 4 - Order recipes " + "\n 5 - View your recipes " + "\n 6 - Edit recipe " + "\n 7 - Save data to recipes.json file " + "\n 8 - Get data from recipes.json file " + "\n 9 - Exit", 9);
+                yourCommand = Helper.CheckInt("Choose one of the following numbers:" + "\n 1 - Add recipe" + "\n 2 - Delete recipe " + "\n 3 - Search recipe " + "\n 4 - Order recipes " + "\n 5 - View your recipes " + "\n 6 - Edit recipe " + "\n 7 - Save data to recipes.json file " + "\n 8 - Get data from recipes.json file " + "\n 9 - Filter recipes by nutritional value " + "\n 10 - Change colors " +  "\n 11 - Exit", 11);
                 switch (yourCommand)
                 {
                     case 1:
@@ -57,13 +57,21 @@ namespace Project1_Recipe
                                     break;
                                 case 2:
                                     var foundRecipes = recipeJournal.FindRecipeByIngredientName();
-                                    foreach (var recipe in foundRecipes)
+                                    foreach (var r in foundRecipes)
                                     {
-                                        Console.WriteLine(recipe.ToString());
+                                        Console.WriteLine(r.ToString());
                                     }
                                     break;
                                 case 3:
-                                    Console.WriteLine(recipeJournal.FindRecipeByIndex().ToString());
+                                    rec = recipeJournal.FindRecipeByIndex();
+                                    if (rec != null)
+                                    {
+                                        Console.WriteLine(rec.ToString());
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("No such recipe found.");
+                                    }
                                     break;
                             }
                         }
@@ -121,7 +129,13 @@ namespace Project1_Recipe
                         recipeJournal.ViewRecipes();
                         break;
                     case 6:
-                        Console.WriteLine(recipeJournal.EditRecipe().ToString());
+                        var recipe = recipeJournal.EditRecipe();
+                        if (recipe == null)
+                        {
+                            Console.WriteLine("No such recipe was found.");
+                            break;
+                        }
+                        Console.WriteLine(recipe.ToString());
                         break;
                     case 7:
                         var yourCommandJSON = Helper.CheckInt($"Do you want to change your filename from {filename}? " + "\n 1 - Yes " + "\n 2 - No " + "\n 3 - Go back to main menu", 3);
@@ -161,6 +175,19 @@ namespace Project1_Recipe
                             {
                                 Console.WriteLine($"Your {filename} file is corrupted.");
                             }
+                        }
+                        break;
+                    case 9:
+                        var filtered_recipes = recipeJournal.ShallowCopy();
+                        filtered_recipes.Recipes = filtered_recipes.FilterByNutritionalValue();
+                        filtered_recipes.ViewRecipes();
+                        break;
+                    case 10:
+                        var yourCommandColor = 0;
+                        while (yourCommandColor != 5)
+                        {
+                            yourCommandColor = Helper.CheckInt("\nChoose one of the following numbers:" + "\n 1 - Change console foreground color" + "\n 2 - Change console background text color" + "\n 3 - Reset colors" + "\n 4 - Help: Show available colors" + "\n 5 - Go back to main menu", 5);
+                            Helper.ColorChange(yourCommandColor);
                         }
                         break;
                 }

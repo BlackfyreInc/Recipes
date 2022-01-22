@@ -75,7 +75,10 @@ namespace Project1_Recipe
             {
                 if (double.TryParse(str, out res))
                 {
-                    break;
+                    if (res >= 0.0)
+                    {
+                        break;
+                    }
                 }
                 Console.WriteLine("Please enter valid double value: ");
                 str = Console.ReadLine();
@@ -93,6 +96,51 @@ namespace Project1_Recipe
                 str = Console.ReadLine();
             }
             return str;
+        }
+
+        public static void ColorChange(int yourCommandColor)
+        {
+            switch (yourCommandColor)
+            {
+                case 1:
+                    var char_color = CheckString("Enter preferred color: ").ToCharArray();
+                    char_color[0] = char.ToUpper(char_color[0]);
+                    if (char_color[0] == 'D' && char_color[3] == 'k')
+                    {
+                        char_color[4] = char.ToUpper(char_color[4]);
+                    }
+                    var color = new string(char_color);
+                    var c = Enum.TryParse(typeof(ConsoleColor), color, out var choice);
+                    if (!c)
+                    {
+                        Console.WriteLine("There is no such color available.");
+                        break;
+                    }
+                    Console.ForegroundColor = (ConsoleColor) choice;
+                    break;
+                case 2:
+                    char_color = CheckString("Enter preferred color: ").ToCharArray();
+                    char_color[0] = char.ToUpper(char_color[0]);
+                    char_color[4] = char.ToUpper(char_color[4]);
+                    color = new string(char_color);
+                    c = Enum.TryParse(typeof(ConsoleColor), color, out var ch);
+                    if (!c)
+                    {
+                        Console.WriteLine("There is no such color available.");
+                        break;
+                    }
+                    Console.BackgroundColor = (ConsoleColor) ch;
+                    break;
+                case 3:
+                    Console.ResetColor();
+                    break;
+                case 4:
+                    foreach (ConsoleColor consoleColor in Enum.GetValues(typeof(ConsoleColor)))
+                    {
+                        Console.WriteLine($"{consoleColor}");
+                    }
+                    break;
+            }
         }
     }
 }
